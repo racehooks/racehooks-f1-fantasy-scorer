@@ -1,0 +1,54 @@
+{
+  "name": "racehooks-f1-fantasy-scorer",
+  "version": "0.1.0",
+  "description": "Live F1 Fantasy point scoring from RaceHooks webhook events — official F1 Fantasy and DraftKings-style DFS rules, roster optimizer, fully typed.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "jest"
+  },
+  "keywords": [
+    "formula1",
+    "f1",
+    "fantasy",
+    "fantasy-f1",
+    "scoring",
+    "dfs",
+    "draftkings",
+    "racing",
+    "racehooks",
+    "webhooks",
+    "typescript"
+  ],
+  "license": "MIT",
+  "homepage": "https://racehooks-ai.com",
+  "bugs": {
+    "url": "https://github.com/racehooks/f1-fantasy-scorer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/racehooks/f1-fantasy-scorer"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "ts-jest": "^29.1.2",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.19"
+  }
+}
