@@ -1,11 +1,13 @@
 # @racehooks/fantasy-scorer
 
-**Live F1 Fantasy point scoring from [RaceHooks](https://racehooks-ai.com) webhook events.**
+**Live F1 Fantasy point scoring from [RaceHooks](https://racehooks.io) webhook events.**
 
 Feed it the `raceevent` and `timingdata` webhooks RaceHooks delivers during a
 Grand Prix and it produces **running fantasy point totals per driver, in real
 time** — using either the official F1 Fantasy rules, a DraftKings-style DFS
 variant, or your own custom rule set.
+
+> RaceHooks is an independent service and is not affiliated with or endorsed by Formula One Management or the FIA. "Formula 1," "F1," and related marks are trademarks of Formula One Licensing BV.
 
 ```ts
 import { FantasyScorer, OfficialF1ScoringRules } from "@racehooks/fantasy-scorer";
@@ -74,8 +76,8 @@ const unsubscribe = scorer.on("scoreUpdate", (scores, event) => {
 // In your RaceHooks webhook handler:
 app.post("/webhook", (req) => {
   const payload = req.body;
-  if (payload.type === "raceevent") scorer.ingest(payload);     // auto-finalises on session.complete
-  if (payload.type === "timingdata") scorer.processTimingUpdate(payload);
+  if (payload.feed === "raceevent") scorer.ingest(payload);     // auto-finalises on session.complete
+  if (payload.feed === "timingdata") scorer.processTimingUpdate(payload);
 });
 
 // At any point:
