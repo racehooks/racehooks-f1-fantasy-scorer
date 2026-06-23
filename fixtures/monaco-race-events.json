@@ -8,28 +8,28 @@
     "RUS": 3
   },
   "events": [
-    { "type": "raceevent", "event": "session.start", "utc": "2026-05-24T13:00:00Z", "data": { "sessionType": "Race", "sessionName": "Monaco Grand Prix" } },
+    { "feed": "raceevent", "event": "session.start", "utc": "2026-05-24T13:00:00Z", "data": { "sessionType": "Race", "sessionName": "Monaco Grand Prix" } },
 
-    { "type": "raceevent", "event": "overtake", "lap": 12, "utc": "2026-05-24T13:25:00Z", "data": { "driver": "16", "tla": "LEC", "team": "Ferrari", "fromPosition": 4, "toPosition": 3 } },
-    { "type": "raceevent", "event": "overtake", "lap": 18, "utc": "2026-05-24T13:31:00Z", "data": { "driver": "16", "tla": "LEC", "team": "Ferrari", "fromPosition": 3, "toPosition": 2 } },
+    { "feed": "raceevent", "event": "overtake", "lap": 12, "utc": "2026-05-24T13:25:00Z", "data": { "driver": "16", "tla": "LEC", "team": "Ferrari", "fromPosition": 4, "toPosition": 3 } },
+    { "feed": "raceevent", "event": "overtake", "lap": 18, "utc": "2026-05-24T13:31:00Z", "data": { "driver": "16", "tla": "LEC", "team": "Ferrari", "fromPosition": 3, "toPosition": 2 } },
 
-    { "type": "raceevent", "event": "overtake", "lap": 20, "utc": "2026-05-24T13:33:00Z", "data": { "driver": "44", "tla": "HAM", "team": "Ferrari", "fromPosition": 7, "toPosition": 6 } },
-    { "type": "raceevent", "event": "overtake", "lap": 28, "utc": "2026-05-24T13:40:00Z", "data": { "driver": "44", "tla": "HAM", "team": "Ferrari", "fromPosition": 6, "toPosition": 5 } },
+    { "feed": "raceevent", "event": "overtake", "lap": 20, "utc": "2026-05-24T13:33:00Z", "data": { "driver": "44", "tla": "HAM", "team": "Ferrari", "fromPosition": 7, "toPosition": 6 } },
+    { "feed": "raceevent", "event": "overtake", "lap": 28, "utc": "2026-05-24T13:40:00Z", "data": { "driver": "44", "tla": "HAM", "team": "Ferrari", "fromPosition": 6, "toPosition": 5 } },
 
-    { "type": "raceevent", "event": "pit.stop.complete", "lap": 30, "utc": "2026-05-24T13:42:00Z", "data": { "driver": "1", "tla": "VER", "team": "Red Bull", "stationaryMs": 2150, "totalDurationMs": 21000 } },
-    { "type": "raceevent", "event": "pit.stop.complete", "lap": 31, "utc": "2026-05-24T13:43:00Z", "data": { "driver": "4", "tla": "NOR", "team": "McLaren", "stationaryMs": 1950, "totalDurationMs": 20500 } },
+    { "feed": "raceevent", "event": "pit.stop.complete", "lap": 30, "utc": "2026-05-24T13:42:00Z", "data": { "driver": "1", "tla": "VER", "team": "Red Bull", "stationaryMs": 2150, "totalDurationMs": 21000 } },
+    { "feed": "raceevent", "event": "pit.stop.complete", "lap": 31, "utc": "2026-05-24T13:43:00Z", "data": { "driver": "4", "tla": "NOR", "team": "McLaren", "stationaryMs": 1950, "totalDurationMs": 20500 } },
 
-    { "type": "raceevent", "event": "retirement", "lap": 40, "utc": "2026-05-24T13:55:00Z", "data": { "driver": "63", "tla": "RUS", "team": "Mercedes", "positionAtRetirement": 5 } },
+    { "feed": "raceevent", "event": "retirement", "lap": 40, "utc": "2026-05-24T13:55:00Z", "data": { "driver": "63", "tla": "RUS", "team": "Mercedes", "positionAtRetirement": 5 } },
 
-    { "type": "raceevent", "event": "fastest.lap", "lap": 70, "utc": "2026-05-24T14:30:00Z", "data": { "driver": "4", "tla": "NOR", "team": "McLaren", "lapTime": "1:12.345", "lapTimeMs": 72345 } },
+    { "feed": "raceevent", "event": "fastest.lap", "lap": 70, "utc": "2026-05-24T14:30:00Z", "data": { "driver": "4", "tla": "NOR", "team": "McLaren", "lapTime": "1:12.345", "lapTimeMs": 72345 } },
 
-    { "type": "raceevent", "event": "driver_finished", "utc": "2026-05-24T14:40:00Z", "data": { "driver": "1", "tla": "VER", "team": "Red Bull", "position": 1, "classified": true } },
-    { "type": "raceevent", "event": "driver_finished", "utc": "2026-05-24T14:40:01Z", "data": { "driver": "16", "tla": "LEC", "team": "Ferrari", "position": 2, "classified": true } },
-    { "type": "raceevent", "event": "driver_finished", "utc": "2026-05-24T14:40:02Z", "data": { "driver": "4", "tla": "NOR", "team": "McLaren", "position": 3, "classified": true } },
-    { "type": "raceevent", "event": "driver_finished", "utc": "2026-05-24T14:40:03Z", "data": { "driver": "44", "tla": "HAM", "team": "Ferrari", "position": 5, "classified": true } },
+    { "feed": "raceevent", "event": "driver_finished", "utc": "2026-05-24T14:40:00Z", "data": { "driver": "1", "tla": "VER", "team": "Red Bull", "position": 1, "classified": true } },
+    { "feed": "raceevent", "event": "driver_finished", "utc": "2026-05-24T14:40:01Z", "data": { "driver": "16", "tla": "LEC", "team": "Ferrari", "position": 2, "classified": true } },
+    { "feed": "raceevent", "event": "driver_finished", "utc": "2026-05-24T14:40:02Z", "data": { "driver": "4", "tla": "NOR", "team": "McLaren", "position": 3, "classified": true } },
+    { "feed": "raceevent", "event": "driver_finished", "utc": "2026-05-24T14:40:03Z", "data": { "driver": "44", "tla": "HAM", "team": "Ferrari", "position": 5, "classified": true } },
 
-    { "type": "raceevent", "event": "driver_of_the_day", "utc": "2026-05-24T14:45:00Z", "data": { "driver": "16", "tla": "LEC", "team": "Ferrari" } },
+    { "feed": "raceevent", "event": "driver_of_the_day", "utc": "2026-05-24T14:45:00Z", "data": { "driver": "16", "tla": "LEC", "team": "Ferrari" } },
 
-    { "type": "raceevent", "event": "session.complete", "utc": "2026-05-24T14:46:00Z", "data": { "sessionName": "Monaco Grand Prix", "sessionType": "Race" } }
+    { "feed": "raceevent", "event": "session.complete", "utc": "2026-05-24T14:46:00Z", "data": { "sessionName": "Monaco Grand Prix", "sessionType": "Race" } }
   ]
 }

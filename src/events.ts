@@ -24,17 +24,25 @@
 
 /** Driver identity block that RaceHooks attaches to most race events. */
 export interface DriverRef {
-  /** F1 racing number (e.g. "1", "44"). */
+  /** RaceHooks slug (e.g. "verstappen-max"). */
+  driverId?: string;
+  /** RaceHooks constructor slug (e.g. "red-bull-racing"). */
+  constructorId?: string;
+  /** F1 racing number (e.g. "1", "44"). Normalized field name. */
+  number?: string;
+  /** F1 racing number alias used in some event payloads. */
   driver?: string;
   /** Three-letter abbreviation (e.g. "VER"). The scorer keys on this. */
   tla?: string;
+  /** Full driver name. */
+  name?: string;
   /** Team name. */
   team?: string;
 }
 
 /** The envelope shape of every `raceevent` payload. */
 export interface RaceEventPayload {
-  type: "raceevent";
+  feed: "raceevent";
   sessionId?: string | null;
   /** Event name — see the list in the module doc. */
   event: string;
@@ -57,13 +65,11 @@ export interface TimingLine {
 
 /** The `timingdata` payload envelope. */
 export interface TimingDataPayload {
-  type?: "timingdata";
+  feed?: "timingdata";
   sessionId?: string | null;
-  data?: {
-    Lines?: Record<string, TimingLine>;
-  };
-  /** RaceHooks also accepts a flattened `Lines` at the top of `data`. */
-  Lines?: Record<string, TimingLine>;
+  /** Normalized per-driver entries. Each entry includes DriverRef identity fields
+   * plus only the timing fields that changed (delta-based, mirrors F1's feed). */
+  drivers?: (DriverRef & TimingLine)[];
 }
 
 /**

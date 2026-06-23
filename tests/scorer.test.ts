@@ -3,7 +3,7 @@ import type { RaceEventPayload } from "../src";
 import monaco from "../fixtures/monaco-race-events.json";
 
 function re(event: string, data: Record<string, unknown>, utc = "2026-01-01T00:00:00Z"): RaceEventPayload {
-  return { type: "raceevent", event, utc, data };
+  return { feed: "raceevent", event, utc, data };
 }
 
 describe("FantasyScorer — full Monaco race fixture (Official rules)", () => {
@@ -98,14 +98,33 @@ describe("FantasyScorer — DNF timing & last-lap edge cases", () => {
   it("a driver who starts then retires gets only the DNF penalty (no finish points)", () => {
     const scorer = new FantasyScorer({ rules: OfficialF1ScoringRules, roster: ["LEC"], gridPositions: { LEC: 1 } });
     scorer.processEvent(re("session.start", { sessionType: "Race" }));
-    scorer.processTimingUpdate({ data: { Lines: { "16": { Position: 1, Status: 1 } } } });
+    scorer.processTimingUpdate({
+      drivers: [{ driverId: "leclerc-charles", constructorId: "ferrari", number: "16", tla: "LEC", name: "Charles Leclerc", team: "Scuderia Ferrari", Position: 1, Status: 1 }],
+    });
     scorer.registerDriver("16", "LEC");
-    // re-send so number maps to TLA now that it's registered
-    scorer.processTimingUpdate({ data: { Lines: { "16": { Position: 1, Status: 3 } } } });
+    scorer.processTimingUpdate({
+      drivers: [{ driverId: "leclerc-charles", constructorId: "ferrari", number: "16", tla: "LEC", name: "Charles Leclerc", team: "Scuderia Ferrari", Position: 1, Status: 3 }],
+    });
     scorer.finalize();
     expect(scorer.getScore("LEC")).toBe(-20);
     const log = scorer.getEventLog();
     expect(log.some((e) => e.reason.endsWith("_FINISH"))).toBe(false);
+  });
+
+  it("registerDriver() pre-registration is honoured when timingdata arrives with no tla", () => {
+    // Regression: processTimingUpdate must consult numberToTla when d.tla is absent,
+    // so a registerDriver() call before timing arrives is not silently discarded.
+    const scorer = new FantasyScorer({ rules: OfficialF1ScoringRules, roster: ["VER"] });
+    scorer.registerDriver("1", "VER");
+    // Timing entry has no tla field — simulates a partial delta from a future feed shape.
+    scorer.processTimingUpdate({
+      drivers: [{ driverId: "verstappen-max", constructorId: "red-bull-racing", number: "1", tla: "", name: "Max Verstappen", team: "Red Bull Racing", Position: 1 }],
+    });
+    scorer.processEvent(re("driver_finished", { tla: "VER", position: 1 }));
+    // VER should have finish points; if the pre-registration was lost the driver
+    // would have been skipped in processTimingUpdate and finalize would miss the start pos.
+    expect(scorer.getScore("VER")).toBeGreaterThan(0);
+    expect(scorer.getScore("VER")).toBe(25); // P1 finish
   });
 
   it("handles a position change on the last lap via driver_finished", () => {
@@ -127,9 +146,14 @@ describe("FantasyScorer — qualifying scoring", () => {
   it("awards qualifying position points from final timing", () => {
     const scorer = new FantasyScorer({ rules: OfficialF1ScoringRules, roster: ["1", "44"] });
     scorer.processEvent(re("session.start", { sessionType: "Qualifying" }));
-    scorer.processTimingUpdate({ data: { Lines: { "1": { Position: 1 }, "44": { Position: 3 } } } });
+    // roster uses driver numbers — scorer falls back to number key when TLA not in roster
+    scorer.processTimingUpdate({
+      drivers: [
+        { driverId: "verstappen-max", constructorId: "red-bull-racing", number: "1", tla: "VER", name: "Max Verstappen", team: "Red Bull Racing", Position: 1 },
+        { driverId: "hamilton-lewis", constructorId: "mercedes", number: "44", tla: "HAM", name: "Lewis Hamilton", team: "Mercedes", Position: 3 },
+      ],
+    });
     scorer.finalize();
-    // Quali is keyed by number here since no TLA mapping; roster uses numbers.
     expect(scorer.getScore("1")).toBe(10); // pole
     expect(scorer.getScore("44")).toBe(8); // P3
   });

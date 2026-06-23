@@ -1,6 +1,6 @@
 import type { ScoringRules, ScoringLogEntry, ScoreMap, SessionKind, RosterBoost } from "./rules/types";
 import { ScoringRulesValidator } from "./rules/validator";
-import type { RaceEventPayload, TimingDataPayload, TimingLine } from "./events";
+import type { RaceEventPayload, TimingDataPayload } from "./events";
 
 /** Configuration for a {@link FantasyScorer} instance. */
 export interface ScorerConfig {
@@ -172,26 +172,41 @@ export class FantasyScorer {
    * called (typically on `session.complete`), using the last positions seen.
    */
   processTimingUpdate(payload: TimingDataPayload): void {
-    const lines = payload?.data?.Lines ?? payload?.Lines;
-    if (!lines) return;
+    const drivers = payload?.drivers;
+    if (!drivers) return;
     const at = new Date().toISOString();
 
-    for (const [driverNum, line] of Object.entries(lines)) {
-      const tla = this.resolveTla(driverNum, line);
-      if (!tla || !this.inRoster(tla)) continue;
-      const st = this.ensureState(tla);
+    for (const d of drivers) {
+      const driverNum = d.number ?? d.driver ?? "";
+      const tla = d.tla ? d.tla.toUpperCase() : undefined;
+      // Register number → TLA mapping from the normalized entry.
+      if (tla && driverNum) this.numberToTla.set(driverNum, tla);
+      // Consult pre-registered mapping (e.g. from registerDriver()) when
+      // the current entry has no tla — preserves registerDriver() contracts.
+      const resolvedTla = tla ?? this.numberToTla.get(driverNum);
 
-      const pos = line.Position !== undefined ? Number(line.Position) : undefined;
+      // Prefer TLA if roster is TLA-keyed; fall back to driver number for
+      // number-keyed rosters (e.g. roster: ["1", "44"]).
+      const scoringKey =
+        resolvedTla && this.inRoster(resolvedTla)
+          ? resolvedTla
+          : this.inRoster(driverNum)
+            ? driverNum
+            : undefined;
+      if (!scoringKey) continue;
+      const st = this.ensureState(scoringKey);
+
+      const pos = d.Position !== undefined ? Number(d.Position) : undefined;
       if (pos !== undefined && Number.isFinite(pos)) {
         if (st.inferredStart === undefined) st.inferredStart = pos;
         st.lastPosition = pos;
       }
 
       // Retirement straight from timing status (Status 3 = retired).
-      const statusNum = line.Status !== undefined ? Number(line.Status) : undefined;
-      const retired = statusNum === 3 || line.Retired === true || line.Stopped === true;
+      const statusNum = d.Status !== undefined ? Number(d.Status) : undefined;
+      const retired = statusNum === 3 || d.Retired === true || d.Stopped === true;
       if (retired && !st.dnfScored) {
-        this.scoreDnf(tla, st.lastPosition ?? pos, at);
+        this.scoreDnf(scoringKey, st.lastPosition ?? pos, at);
       }
     }
   }
@@ -217,7 +232,7 @@ export class FantasyScorer {
    * route it. Also auto-finalises on `session.complete`.
    */
   ingest(payload: RaceEventPayload | TimingDataPayload): void {
-    if ((payload as RaceEventPayload).type === "raceevent") {
+    if ((payload as RaceEventPayload).feed === "raceevent") {
       const rp = payload as RaceEventPayload;
       const ev = EVENT_ALIASES[String(rp.event)] ?? String(rp.event);
       this.processEvent(rp);
@@ -483,16 +498,6 @@ export class FantasyScorer {
     // Fall back to raw driver field if it already looks like a TLA.
     const raw = data.driver;
     if (typeof raw === "string" && /^[A-Za-z]{3}$/.test(raw)) return raw.toUpperCase();
-    return undefined;
-  }
-
-  private resolveTla(driverNum: string, line: TimingLine): string | undefined {
-    const existing = this.numberToTla.get(driverNum);
-    if (existing) return existing;
-    // timingdata lines do not carry a TLA; if the roster is keyed by number,
-    // treat the number as the key. Otherwise it cannot be resolved here and is
-    // skipped (raceevent payloads, which carry `tla`, drive the mapping).
-    if (this.roster?.has(driverNum.toUpperCase())) return driverNum.toUpperCase();
     return undefined;
   }
 
