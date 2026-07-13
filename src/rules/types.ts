@@ -2,12 +2,12 @@
  * Scoring rule types for the F1 Fantasy Scorer.
  *
  * A `ScoringRules` object is a pure, declarative description of how RaceHooks
- * `raceevent` + `timingdata` payloads translate into fantasy points. The
+ * `events.race` payloads translate into fantasy points. The
  * {@link FantasyScorer} consumes these rules; it never hard-codes a point value.
  *
  * Two complete rule sets ship with the package — `OfficialF1ScoringRules`
- * (the official F1 Fantasy game) and `DFSScoringRules` (a DraftKings-style
- * DFS variant) — and you can supply any custom object that satisfies this shape.
+ * (the official F1 Fantasy game) and `DFSScoringRules` (an illustrative DFS
+ * variant) — and you can supply any custom object that satisfies this shape.
  */
 
 /** Session phase a scoring rule applies to. */
@@ -72,10 +72,6 @@ export interface ScoringRules {
   raceDnfPoints?: number;
   /** Penalty for a sprint DNF / not-classified result (negative). */
   sprintDnfPoints?: number;
-  /** Penalty for a race disqualification (negative). */
-  raceDisqualificationPoints?: number;
-  /** Penalty for failing to set a qualifying time / qualifying DSQ (negative). */
-  qualifyingDisqualificationPoints?: number;
 
   // ── Constructor / pit-stop scoring ──────────────────────────────────────
   /**
@@ -93,16 +89,25 @@ export interface ScoringRules {
 
   // ── Multipliers ─────────────────────────────────────────────────────────
   /**
-   * Canonical boost multiplier for this rule set (official game uses 2x for
-   * the "DRS Boost"/turbo driver). The actual boosted driver is chosen
+   * Canonical boost multiplier for this rule set (the official game uses 2x
+   * for the nominated turbo driver). The actual boosted driver is chosen
    * per-roster via {@link ScorerConfig.boost}; this value documents the default.
    */
   defaultBoostMultiplier?: number;
 }
 
+/** Whether a scoring entry credits a driver total or a constructor total. */
+export type ScoringScope = "driver" | "constructor";
+
 /** A single scoring event recorded by the scorer's event log. */
 export interface ScoringLogEntry {
-  /** Driver three-letter abbreviation (e.g. "VER"). */
+  /** Whether this entry accrues to a driver or a constructor. */
+  scope: ScoringScope;
+  /**
+   * The subject the points accrue to: a driver TLA (e.g. "VER") for
+   * `scope: "driver"`, or a constructor slug (e.g. "ferrari") for
+   * `scope: "constructor"`.
+   */
   driver: string;
   /** Points awarded by this event (may be negative). */
   points: number;
@@ -118,6 +123,22 @@ export interface ScoringLogEntry {
 
 /** Map of driver TLA → running point total. */
 export type ScoreMap = Record<string, number>;
+
+/** A constructor's aggregated fantasy score. */
+export interface ConstructorScore {
+  /** Canonical RaceHooks constructor slug (e.g. "ferrari"). */
+  constructorId: string;
+  /** Display team name, when seen in the feed. */
+  team?: string;
+  /** TLAs of the constructor's drivers seen in the feed. */
+  drivers: string[];
+  /** Combined driver points of this constructor's drivers. */
+  driverPoints: number;
+  /** Constructor pit-stop performance points (bands + bonuses). */
+  pitStopPoints: number;
+  /** driverPoints + pitStopPoints. */
+  total: number;
+}
 
 /** A roster boost assignment: which driver gets the multiplier and what it is. */
 export interface RosterBoost {

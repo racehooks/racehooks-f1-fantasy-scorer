@@ -17,20 +17,25 @@ import type { ScoringRules } from "./types";
  *  Positions lost:            -1 per place lost
  *  Overtakes:                 +1 per legal on-track overtake (stacks with
  *                             positions-gained — the official game awards both)
- *  Driver of the Day:         +10
+ *  Driver of the Day:         +10  (external input — not an events.race event)
  *  Beat teammate (quali):     +2   (qualified ahead of teammate)
  *  Beat teammate (race):      +3   (finished ahead of teammate)
  *  Race DNF / not classified: -20
- *  Race disqualification:     -25
- *  Failed to set quali time / quali DSQ: -5
  *
  * ── 2026 changes baked in ─────────────────────────────────────────────────
  *  - Sprint DNF reduced from -20 to -10 (FanAmp / Into the Chicane, 2026).
  *  - Fastest-lap bonus remains REMOVED (dropped for 2025, still gone in 2026).
  *
+ * Disqualification points are intentionally NOT modelled: the RaceHooks feed
+ * does not emit a disqualification signal, so awarding a DSQ penalty would
+ * require an input the scorer never receives. DNF (a real, derivable outcome)
+ * is scored; DSQ is left to the operator to apply out of band if needed.
+ *
  * ── Constructor scoring ───────────────────────────────────────────────────
- *  A constructor scores the combined total of its two drivers across
- *  qualifying + race, PLUS pit-stop performance:
+ *  A constructor scores the combined driver points of its two drivers, PLUS
+ *  its pit-stop performance. The scorer computes this via
+ *  `FantasyScorer.getConstructorScores()`; pit points accrue to the
+ *  constructor (keyed on constructorId), never to a driver. Pit bands:
  *    > 3.00s : 0
  *    2.50–2.99s : +2
  *    2.20–2.49s : +5
@@ -65,8 +70,6 @@ export const OfficialF1ScoringRules: ScoringRules = {
 
   raceDnfPoints: -20,
   sprintDnfPoints: -10, // 2026: reduced from -20
-  raceDisqualificationPoints: -25,
-  qualifyingDisqualificationPoints: -5,
 
   pitStopBands: [
     { minMs: 0, maxMs: 2000, points: 20 },

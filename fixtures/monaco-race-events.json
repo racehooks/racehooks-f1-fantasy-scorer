@@ -1,35 +1,29 @@
 {
-  "description": "Representative RaceHooks event sequence for the 2026 Monaco Grand Prix. Used to validate end-to-end fantasy scoring under OfficialF1ScoringRules. Grid positions are supplied separately to the scorer; see monaco-grid below.",
-  "monacoGrid": {
-    "VER": 1,
-    "NOR": 2,
-    "LEC": 4,
-    "HAM": 7,
-    "RUS": 3
-  },
+  "description": "Representative RaceHooks events.race delivery sequence for a 2026 Monaco Grand Prix. Every payload uses the real events.race feed contract: feed=\"events.race\", an event discriminator, and a nested full DriverRef. Used to validate end-to-end fantasy scoring under OfficialF1ScoringRules. Grid positions are also supplied to the scorer via config; see monacoGrid below.",
+  "monacoGrid": { "VER": 1, "NOR": 2, "RUS": 3, "LEC": 4, "HAM": 7 },
   "events": [
-    { "feed": "raceevent", "event": "session.start", "utc": "2026-05-24T13:00:00Z", "data": { "sessionType": "Race", "sessionName": "Monaco Grand Prix" } },
+    { "feed": "events.race", "event": "session.start", "sessionId": "2026-monaco_Race", "lap": 0, "utc": "2026-05-24T13:00:00Z", "data": { "sessionName": "Monaco Grand Prix", "sessionType": "Race", "totalLaps": 78 } },
 
-    { "feed": "raceevent", "event": "overtake", "lap": 12, "utc": "2026-05-24T13:25:00Z", "data": { "driver": "16", "tla": "LEC", "team": "Ferrari", "fromPosition": 4, "toPosition": 3 } },
-    { "feed": "raceevent", "event": "overtake", "lap": 18, "utc": "2026-05-24T13:31:00Z", "data": { "driver": "16", "tla": "LEC", "team": "Ferrari", "fromPosition": 3, "toPosition": 2 } },
+    { "feed": "events.race", "event": "safety.car.deployed", "sessionId": "2026-monaco_Race", "lap": 1, "utc": "2026-05-24T13:02:00Z", "data": { "type": "full", "previousStatus": "green" } },
+    { "feed": "events.race", "event": "safety.car.cleared", "sessionId": "2026-monaco_Race", "lap": 4, "utc": "2026-05-24T13:08:00Z", "data": { "previousType": "full", "status": "cleared" } },
 
-    { "feed": "raceevent", "event": "overtake", "lap": 20, "utc": "2026-05-24T13:33:00Z", "data": { "driver": "44", "tla": "HAM", "team": "Ferrari", "fromPosition": 7, "toPosition": 6 } },
-    { "feed": "raceevent", "event": "overtake", "lap": 28, "utc": "2026-05-24T13:40:00Z", "data": { "driver": "44", "tla": "HAM", "team": "Ferrari", "fromPosition": 6, "toPosition": 5 } },
+    { "feed": "events.race", "event": "overtake", "sessionId": "2026-monaco_Race", "lap": 12, "utc": "2026-05-24T13:25:00Z", "data": { "overtakingDriver": { "driverId": "charles_leclerc", "constructorId": "ferrari", "number": "16", "tla": "LEC", "name": "Charles Leclerc", "team": "Ferrari", "prevPosition": 4, "newPosition": 3 }, "overtakenDriver": { "driverId": "george_russell", "constructorId": "mercedes", "number": "63", "tla": "RUS", "name": "George Russell", "team": "Mercedes", "prevPosition": 3, "newPosition": 4 } } },
+    { "feed": "events.race", "event": "overtake", "sessionId": "2026-monaco_Race", "lap": 18, "utc": "2026-05-24T13:31:00Z", "data": { "overtakingDriver": { "driverId": "charles_leclerc", "constructorId": "ferrari", "number": "16", "tla": "LEC", "name": "Charles Leclerc", "team": "Ferrari", "prevPosition": 3, "newPosition": 2 } } },
 
-    { "feed": "raceevent", "event": "pit.stop.complete", "lap": 30, "utc": "2026-05-24T13:42:00Z", "data": { "driver": "1", "tla": "VER", "team": "Red Bull", "stationaryMs": 2150, "totalDurationMs": 21000 } },
-    { "feed": "raceevent", "event": "pit.stop.complete", "lap": 31, "utc": "2026-05-24T13:43:00Z", "data": { "driver": "4", "tla": "NOR", "team": "McLaren", "stationaryMs": 1950, "totalDurationMs": 20500 } },
+    { "feed": "events.race", "event": "overtake", "sessionId": "2026-monaco_Race", "lap": 20, "utc": "2026-05-24T13:33:00Z", "data": { "overtakingDriver": { "driverId": "lewis_hamilton", "constructorId": "ferrari", "number": "44", "tla": "HAM", "name": "Lewis Hamilton", "team": "Ferrari", "prevPosition": 7, "newPosition": 6 } } },
+    { "feed": "events.race", "event": "overtake", "sessionId": "2026-monaco_Race", "lap": 28, "utc": "2026-05-24T13:40:00Z", "data": { "overtakingDriver": { "driverId": "lewis_hamilton", "constructorId": "ferrari", "number": "44", "tla": "HAM", "name": "Lewis Hamilton", "team": "Ferrari", "prevPosition": 6, "newPosition": 5 } } },
 
-    { "feed": "raceevent", "event": "retirement", "lap": 40, "utc": "2026-05-24T13:55:00Z", "data": { "driver": "63", "tla": "RUS", "team": "Mercedes", "positionAtRetirement": 5 } },
+    { "feed": "events.race", "event": "pit.stop.complete", "sessionId": "2026-monaco_Race", "lap": 30, "utc": "2026-05-24T13:42:00Z", "data": { "driver": { "driverId": "max_verstappen", "constructorId": "red-bull", "number": "1", "tla": "VER", "name": "Max Verstappen", "team": "Red Bull Racing" }, "stopNumber": 1, "stationaryMs": 2150, "totalDurationMs": 21000 } },
+    { "feed": "events.race", "event": "pit.stop.complete", "sessionId": "2026-monaco_Race", "lap": 31, "utc": "2026-05-24T13:43:00Z", "data": { "driver": { "driverId": "lando_norris", "constructorId": "mclaren", "number": "4", "tla": "NOR", "name": "Lando Norris", "team": "McLaren" }, "stopNumber": 1, "stationaryMs": 1950, "totalDurationMs": 20500 } },
 
-    { "feed": "raceevent", "event": "fastest.lap", "lap": 70, "utc": "2026-05-24T14:30:00Z", "data": { "driver": "4", "tla": "NOR", "team": "McLaren", "lapTime": "1:12.345", "lapTimeMs": 72345 } },
+    { "feed": "events.race", "event": "retirement", "sessionId": "2026-monaco_Race", "lap": 40, "utc": "2026-05-24T13:55:00Z", "data": { "driver": { "driverId": "george_russell", "constructorId": "mercedes", "number": "63", "tla": "RUS", "name": "George Russell", "team": "Mercedes" }, "positionAtRetirement": 5, "pitsCompleted": 1, "cause": "mechanical", "causeRawMessage": "CAR 63 STOPPED ON TRACK" } },
 
-    { "feed": "raceevent", "event": "driver_finished", "utc": "2026-05-24T14:40:00Z", "data": { "driver": "1", "tla": "VER", "team": "Red Bull", "position": 1, "classified": true } },
-    { "feed": "raceevent", "event": "driver_finished", "utc": "2026-05-24T14:40:01Z", "data": { "driver": "16", "tla": "LEC", "team": "Ferrari", "position": 2, "classified": true } },
-    { "feed": "raceevent", "event": "driver_finished", "utc": "2026-05-24T14:40:02Z", "data": { "driver": "4", "tla": "NOR", "team": "McLaren", "position": 3, "classified": true } },
-    { "feed": "raceevent", "event": "driver_finished", "utc": "2026-05-24T14:40:03Z", "data": { "driver": "44", "tla": "HAM", "team": "Ferrari", "position": 5, "classified": true } },
+    { "feed": "events.race", "event": "fastest.lap", "sessionId": "2026-monaco_Race", "lap": 70, "utc": "2026-05-24T14:30:00Z", "data": { "driver": { "driverId": "lando_norris", "constructorId": "mclaren", "number": "4", "tla": "NOR", "name": "Lando Norris", "team": "McLaren" }, "lapTime": { "display": "1:12.345", "ms": 72345 } } },
 
-    { "feed": "raceevent", "event": "driver_of_the_day", "utc": "2026-05-24T14:45:00Z", "data": { "driver": "16", "tla": "LEC", "team": "Ferrari" } },
+    { "feed": "events.race", "event": "positions.gained", "sessionId": "2026-monaco_Race", "lap": 78, "utc": "2026-05-24T14:40:01Z", "data": { "driver": { "driverId": "charles_leclerc", "constructorId": "ferrari", "number": "16", "tla": "LEC", "name": "Charles Leclerc", "team": "Ferrari" }, "gridPosition": 4, "currentPosition": 2, "positionsGained": 2 } },
+    { "feed": "events.race", "event": "positions.lost", "sessionId": "2026-monaco_Race", "lap": 78, "utc": "2026-05-24T14:40:02Z", "data": { "driver": { "driverId": "lando_norris", "constructorId": "mclaren", "number": "4", "tla": "NOR", "name": "Lando Norris", "team": "McLaren" }, "gridPosition": 2, "currentPosition": 3, "positionsGained": -1 } },
+    { "feed": "events.race", "event": "positions.gained", "sessionId": "2026-monaco_Race", "lap": 78, "utc": "2026-05-24T14:40:03Z", "data": { "driver": { "driverId": "lewis_hamilton", "constructorId": "ferrari", "number": "44", "tla": "HAM", "name": "Lewis Hamilton", "team": "Ferrari" }, "gridPosition": 7, "currentPosition": 5, "positionsGained": 2 } },
 
-    { "feed": "raceevent", "event": "session.complete", "utc": "2026-05-24T14:46:00Z", "data": { "sessionName": "Monaco Grand Prix", "sessionType": "Race" } }
+    { "feed": "events.race", "event": "session.complete", "sessionId": "2026-monaco_Race", "lap": 78, "utc": "2026-05-24T14:46:00Z", "data": { "sessionName": "Monaco Grand Prix", "sessionType": "Race", "winner": { "driverId": "max_verstappen", "constructorId": "red-bull", "number": "1", "tla": "VER", "name": "Max Verstappen", "team": "Red Bull Racing" } } }
   ]
 }

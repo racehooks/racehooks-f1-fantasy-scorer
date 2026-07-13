@@ -1,27 +1,28 @@
 import type { ScoringRules } from "./types";
 
 /**
- * DFSScoringRules — a DraftKings-style Daily Fantasy Sports variant for F1.
+ * DFSScoringRules — an **illustrative** Daily Fantasy Sports (DFS) variant for
+ * F1. This is a generic DFS *shape*, not any specific operator's rule set —
+ * clone it and tune the numbers to whatever contest you are scoring.
  *
  * DFS scoring differs from the season-long official game in three key ways:
  *  1. It rewards *place differential* (positions gained) much more heavily —
- *     it is the headline stat on DraftKings F1 contests.
+ *     it is typically the headline stat on DFS contests.
  *  2. It keeps the fastest-lap bonus (the official game dropped it).
- *  3. It has no teammate/quali-DSQ micro-bonuses and no constructor pit-stop
+ *  3. It has no teammate/quali micro-bonuses and no constructor pit-stop
  *     scoring (DFS rosters are drivers only).
  *
- * Approximated from publicly documented DraftKings F1 DFS rules:
+ * Illustrative DFS payout shape:
  *  Finishing position:  P1=45, descending; classified finishers all score.
  *  Place differential:  +3 per position gained, -3 per position lost.
  *  Fastest lap:         +5
- *  Led most laps:       (not modelled — no live signal in RaceHooks feed)
- *  DNF:                 0 (DFS does not penalise DNF beyond lost positions)
+ *  DNF:                 0 (this shape does not penalise DNF beyond lost places)
  *
- * These values are illustrative of the DFS *shape*; tune them to a specific
- * operator's rules by cloning this object.
+ * These values illustrate the DFS *shape*; they are not sourced from any real
+ * contest. Clone this object to model a specific operator's published rules.
  */
 export const DFSScoringRules: ScoringRules = {
-  name: "DraftKings-style DFS",
+  name: "DFS (illustrative)",
 
   // DFS finishing-position payout — steep at the front, every classified
   // finisher scores something. index 0 unused.
@@ -44,7 +45,6 @@ export const DFSScoringRules: ScoringRules = {
   // DFS imposes no DNF penalty beyond the positions naturally lost.
   raceDnfPoints: 0,
   sprintDnfPoints: 0,
-  raceDisqualificationPoints: 0,
 
-  defaultBoostMultiplier: 1.5, // "captain" slot on many DFS sites
+  defaultBoostMultiplier: 1.5, // a "captain"-style multiplier common in DFS
 };

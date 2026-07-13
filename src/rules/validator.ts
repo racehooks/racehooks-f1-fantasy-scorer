@@ -42,13 +42,7 @@ export const ScoringRulesValidator = {
     }
 
     // Penalties should be non-positive — a positive "penalty" is almost always a bug.
-    for (const key of [
-      "raceDnfPoints",
-      "sprintDnfPoints",
-      "raceDisqualificationPoints",
-      "qualifyingDisqualificationPoints",
-      "positionLostPoints",
-    ] as const) {
+    for (const key of ["raceDnfPoints", "sprintDnfPoints", "positionLostPoints"] as const) {
       const v = rules[key];
       if (v !== undefined && v > 0) {
         warnings.push(`rules.${key} is positive (${v}); penalties are normally <= 0`);

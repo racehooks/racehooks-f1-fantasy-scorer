@@ -38,7 +38,8 @@ describe("OfficialF1ScoringRules — exact point values", () => {
     expect(OfficialF1ScoringRules.driverOfTheDayPoints).toBe(10);
     expect(OfficialF1ScoringRules.raceDnfPoints).toBe(-20);
     expect(OfficialF1ScoringRules.sprintDnfPoints).toBe(-10); // 2026 reduction
-    expect(OfficialF1ScoringRules.raceDisqualificationPoints).toBe(-25);
+    expect(OfficialF1ScoringRules.beatTeammateRacePoints).toBe(3);
+    expect(OfficialF1ScoringRules.beatTeammateQualifyingPoints).toBe(2);
     // Official game has NO fastest-lap bonus.
     expect(OfficialF1ScoringRules.fastestLapPoints).toBeUndefined();
   });

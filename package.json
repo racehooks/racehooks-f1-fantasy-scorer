@@ -1,20 +1,22 @@
 {
   "name": "racehooks-f1-fantasy-scorer",
   "version": "0.1.0",
-  "description": "Live F1 Fantasy point scoring from RaceHooks webhook events — official F1 Fantasy and DraftKings-style DFS rules, roster optimizer, fully typed.",
+  "description": "Live F1 Fantasy point scoring from RaceHooks, the motorsports analytics platform — official F1 Fantasy and DFS rule sets, constructor aggregation, roster optimizer, fully typed.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build && npm test"
   },
   "keywords": [
     "formula1",
@@ -23,7 +25,6 @@
     "fantasy-f1",
     "scoring",
     "dfs",
-    "draftkings",
     "racing",
     "racehooks",
     "webhooks",
@@ -36,7 +37,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/racehooks/f1-fantasy-scorer"
+    "url": "git+https://github.com/racehooks/f1-fantasy-scorer.git"
   },
   "publishConfig": {
     "access": "public"

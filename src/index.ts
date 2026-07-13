@@ -1,7 +1,7 @@
 /**
- * @racehooks/fantasy-scorer
+ * racehooks-f1-fantasy-scorer
  *
- * Live F1 Fantasy scoring from RaceHooks webhook events.
+ * Live F1 Fantasy scoring from RaceHooks `events.race` webhook payloads.
  */
 
 export { FantasyScorer } from "./scorer";
@@ -15,7 +15,9 @@ export {
 export type {
   ScoringRules,
   ScoringLogEntry,
+  ScoringScope,
   ScoreMap,
+  ConstructorScore,
   SessionKind,
   PositionPointsTable,
   PitStopBand,
@@ -32,8 +34,24 @@ export type {
 
 export type {
   RaceEventPayload,
-  TimingDataPayload,
-  TimingLine,
+  RaceEventEnvelope,
+  RaceEventName,
   DriverRef,
-  DriverFinishedData,
+  EventLapTime,
+  OvertakeParticipant,
+  OvertakeData,
+  OvertakeCountData,
+  PositionsChangedData,
+  LapSeriesPositionData,
+  FastestLapData,
+  RetirementData,
+  RetirementCauseCategory,
+  PitStopCompleteData,
+  SessionStartData,
+  SessionCompleteData,
+  LeadChangeData,
+  TopThreeUpdateData,
+  TopThreeUpdateEntry,
+  LiveContext,
+  LiveDriverRow,
 } from "./events";
