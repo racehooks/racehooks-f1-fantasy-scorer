@@ -1,4 +1,4 @@
-# racehooks-f1-fantasy-scorer
+# @racehooks/f1-fantasy-scorer
 
 **Live F1 Fantasy point scoring, powered by [RaceHooks](https://racehooks.io) — the motorsports analytics platform.**
 
@@ -9,7 +9,7 @@ the official F1 Fantasy rules, an illustrative DFS variant, or your own custom r
 > RaceHooks is an independent service and is not affiliated with or endorsed by Formula One Management or the FIA. "Formula 1," "F1," and related marks are trademarks of Formula One Licensing BV.
 
 ```ts
-import { FantasyScorer, OfficialF1ScoringRules } from "racehooks-f1-fantasy-scorer";
+import { FantasyScorer, OfficialF1ScoringRules } from "@racehooks/f1-fantasy-scorer";
 
 const scorer = new FantasyScorer({
   rules: OfficialF1ScoringRules,
@@ -34,9 +34,9 @@ scorer.getScores();
 ## Install
 
 ```bash
-npm install racehooks-f1-fantasy-scorer
+npm install @racehooks/f1-fantasy-scorer
 # or
-yarn add racehooks-f1-fantasy-scorer
+yarn add @racehooks/f1-fantasy-scorer
 ```
 
 ---
@@ -98,7 +98,7 @@ position and retirements (`status === "Retired"`).
 ## Quick start
 
 ```ts
-import { FantasyScorer, OfficialF1ScoringRules } from "racehooks-f1-fantasy-scorer";
+import { FantasyScorer, OfficialF1ScoringRules } from "@racehooks/f1-fantasy-scorer";
 
 const scorer = new FantasyScorer({
   rules: OfficialF1ScoringRules,
@@ -282,7 +282,7 @@ operator's rules:
 A rule set is a plain, declarative object — no code. Define your own and validate it before use:
 
 ```ts
-import { FantasyScorer, ScoringRulesValidator, type ScoringRules } from "racehooks-f1-fantasy-scorer";
+import { FantasyScorer, ScoringRulesValidator, type ScoringRules } from "@racehooks/f1-fantasy-scorer";
 
 const HouseRules: ScoringRules = {
   name: "My League",
@@ -314,7 +314,7 @@ Given a pool of drivers with a price and a projected-points figure, build a budg
 lineup that maximises projected points (value-greedy heuristic with a swap-improvement pass):
 
 ```ts
-import { RosterOptimizer } from "racehooks-f1-fantasy-scorer";
+import { RosterOptimizer } from "@racehooks/f1-fantasy-scorer";
 
 const result = RosterOptimizer.optimize(
   [

@@ -1,5 +1,5 @@
 {
-  "name": "racehooks-f1-fantasy-scorer",
+  "name": "@racehooks/f1-fantasy-scorer",
   "version": "0.1.0",
   "description": "Live F1 Fantasy point scoring from RaceHooks, the motorsports analytics platform — official F1 Fantasy and DFS rule sets, constructor aggregation, roster optimizer, fully typed.",
   "main": "dist/index.js",
