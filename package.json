@@ -38,7 +38,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/racehooks/f1-fantasy-scorer.git"
+    "url": "git+https://github.com/racehooks/racehooks-f1-fantasy-scorer.git"
   },
   "publishConfig": {
     "access": "public"
