@@ -377,6 +377,10 @@ npm run build     # emit dist/
 
 ---
 
+## Documentation
+
+Full docs: https://racehooks.io/docs
+
 ## License
 
 MIT © RaceHooks
